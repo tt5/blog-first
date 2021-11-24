@@ -1,0 +1,14 @@
+{% layout "base" %} {% block content %}
+<div class="grid grid-cols-15 h-screen">
+    <div class="bg-gray-300 col-span-15">
+        <h1>hello {{ world }}</h1>
+    </div>
+    <div class="col-span-15 row-span-2"></div>
+    <div class="row-span-11"></div>
+    <div class="bg-gray-300 col-span-13 row-span-11">
+        <h1 x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>
+    </div>
+    <div class="row-span-11"></div>
+    <div class="col-span-15">footer</div>
+</div>
+{% endblock %}
