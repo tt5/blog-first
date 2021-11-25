@@ -47,6 +47,10 @@ abbr[title] {
   -webkit-text-decoration: underline dotted;
   text-decoration: underline dotted;
 }
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
 body {
   margin: 0;
   font-family: inherit;
@@ -66,12 +70,39 @@ h1 {
   --tw-bg-opacity: 1;
   background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
 }
+.flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
 .grid {
   display: -ms-grid;
   display: grid;
 }
+.self-end {
+  -ms-flex-item-align: end;
+  -webkit-align-self: flex-end;
+  align-self: flex-end;
+}
+.justify-end {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+.justify-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
 .h-screen {
   height: 100vh;
+}
+.gap-4 {
+  grid-gap: 1rem;
+  gap: 1rem;
 }
 .grid-cols-15 {
   grid-template-columns: repeat(15, minmax(0, 1fr));

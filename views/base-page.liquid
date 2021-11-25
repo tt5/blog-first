@@ -1,0 +1,19 @@
+{% layout "base" %} {% block content %}
+<div class="grid grid-cols-15 h-screen">
+    <div class="bg-gray-300 col-span-15 flex self-end justify-between">
+        <div>{{ title }}</div>
+        <div class="flex justify-end gap-4">
+            <div><a href="/page1">page1</a></div>
+            <div>page2</div>
+            <div>page3</div>
+        </div>
+    </div>
+    <div class="col-span-15 row-span-2"></div>
+    <div class="row-span-11"></div>
+    <div class="bg-gray-300 col-span-13 row-span-11">
+    {% block page-content %}{% endblock %}
+    </div>
+    <div class="row-span-11"></div>
+    <div class="col-span-15">footer</div>
+</div>
+{% endblock %}
