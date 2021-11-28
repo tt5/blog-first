@@ -22,12 +22,28 @@ fastify.register(import("fastify-static"), {
     prefix: "/public/",
 });
 
+fastify.decorateRequest('user', '')
+
+
+import fp from 'fastify-plugin'
+
+fastify.register(fp((app, {}, done)  => {
+  app.decorate('foo', function () {
+    return "{ message: 'hello hi' }"
+  })
+  done()
+}))
+
 fastify.register(autoload, {
     dir: path.join(__dirname, "plugins"),
 });
 
 fastify.get("/", async (req, rep) => {
     return rep.view("/views/index.liquid", { world: "world" });
+});
+
+fastify.get("/json", async (req, rep) => {
+    return {  hello: "world" }
 });
 
 fastify.listen(process.env.PORT, "0.0.0.0", console.log);
