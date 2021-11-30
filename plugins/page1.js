@@ -1,10 +1,19 @@
 
 import { fetch } from 'undici';
+import dotenv from "dotenv";
+dotenv.config();
 
 async function plugin(app) {
+app.decorateRequest('user', '')
 
 app.addHook('preHandler', async (req, rep) => {
-    const res = await fetch('http://127.0.0.1:3000/json')
+  let res = ''
+  if (process.env.DEVELOPMENT)  {
+    res = await fetch('http://127.0.0.1:3000/json')
+  } else {
+    res = await fetch('http://https://fast-headland-32790.herokuapp.com/json')
+  }
+
     //const res = await fetch('https://jsonplaceholder.cypress.io/todos/1')
     const json = await res.json()
     console.log(json);

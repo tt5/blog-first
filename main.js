@@ -22,9 +22,6 @@ fastify.register(import("fastify-static"), {
     prefix: "/public/",
 });
 
-fastify.decorateRequest('user', '')
-
-
 import fp from 'fastify-plugin'
 
 fastify.register(fp((app, {}, done)  => {
