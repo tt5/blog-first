@@ -11,7 +11,7 @@ app.addHook('preHandler', async (req, rep) => {
   if (process.env.DEVELOPMENT)  {
     res = await fetch('http://127.0.0.1:3000/json')
   } else {
-    res = await fetch('http://https://fast-headland-32790.herokuapp.com/json')
+    res = await fetch('https://fast-headland-32790.herokuapp.com/json')
   }
 
     //const res = await fetch('https://jsonplaceholder.cypress.io/todos/1')
