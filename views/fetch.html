@@ -1,0 +1,8 @@
+
+<div
+  x-data="{data: null}"
+  x-init="
+  data = await (await fetch('/comp1')).text()
+  ">
+  <div x-html="data"></div>
+</div>

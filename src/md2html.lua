@@ -139,7 +139,7 @@ M.writer = {}
 function M.writer.new(options)
   local self = {}
 
-  local d2 = {slice = "^ $"}
+  local d2 = {slice = "^ ³"}
 
   options = options or {}
   setmetatable(options, { __index = function (_, key)
@@ -153,17 +153,17 @@ function M.writer.new(options)
     self.slice_begin, self.slice_end = unpack(slice_specifiers)
 
     local slice_begin_type = self.slice_begin:sub(1, 1)
-    if slice_begin_type ~= "^" and slice_begin_type ~= "$" then
+    if slice_begin_type ~= "^" and slice_begin_type ~= "³" then
       self.slice_begin = "^" .. self.slice_begin
     end
     local slice_end_type = self.slice_end:sub(1, 1)
-    if slice_end_type ~= "^" and slice_end_type ~= "$" then
-      self.slice_end = "$" .. self.slice_end
+    if slice_end_type ~= "^" and slice_end_type ~= "³" then
+      self.slice_end = "³" .. self.slice_end
     end
 
   elseif #slice_specifiers == 1 then
     self.slice_begin = "^" .. slice_specifiers[1]
-    self.slice_end = "$" .. slice_specifiers[1]
+    self.slice_end = "³" .. slice_specifiers[1]
   end
   if self.slice_begin == "^" and self.slice_end ~= "^" then
     self.is_writing = true
@@ -192,7 +192,7 @@ function M.writer.new(options)
   local escaped_chars = {
      ["{"] = "\\markdownRendererLeftBrace{}",
      ["}"] = "\\markdownRendererRightBrace{}",
-     ["$"] = "\\markdownRendererDollarSign{}",
+--     ["$"] = "\\markdownRendererDollarSign{}",
      ["%"] = "\\markdownRendererPercentSign{}",
      ["~"] = "\\markdownRendererTilde{}",
      ["|"] = "\\markdownRendererPipe{}",
@@ -213,6 +213,12 @@ function M.writer.new(options)
   function self.strong(s)
     return {"<strong>",s,"</strong>"}
   end
+  function self.formulad(s)
+    return {"<span class='math math-display'>",s,"</span>"}
+  end
+  function self.formulai(s)
+    return {"<span class='math math-inline'>",s,"</span>"}
+  end
 
   function self.code(s)
     return {"\\markdownRendererCodeSpan{",escape(s),"}"}
@@ -221,7 +227,7 @@ function M.writer.new(options)
   codecount = 1
   function self.fencedCode(i, s)
     codecount = codecount + 1
-    return {"<pre>",s,"</pre>"}
+    return {"<pre><code class='language-", i,"'>",s,"</code></pre>"}
   end
 
   function self.fencedHTML(i, s)
@@ -245,11 +251,11 @@ function M.writer.new(options)
       -- pop identifiers for sections that have ended
       local active_identifiers = active_headings[#active_headings]
       if active_identifiers[slice_begin_identifier] ~= nil
-          and slice_begin_type == "$" then
+          and slice_begin_type == "³" then
         self.is_writing = true
       end
       if active_identifiers[slice_end_identifier] ~= nil
-          and slice_end_type == "$" then
+          and slice_end_type == "³" then
         self.is_writing = false
       end
       table.remove(active_headings, #active_headings)
@@ -306,6 +312,8 @@ parsers.hash                   = P("#")
 parsers.asterisk               = P("*")
 parsers.doubleasterisks        = P("**")
 parsers.backtick               = P("`")
+parsers.dollar                 = P("$")
+parsers.doubledollar           = P("$$")
 parsers.space                  = P(" ")
 parsers.tab                    = P("\t")
 parsers.newline                = P("\n")
@@ -330,7 +338,7 @@ parsers.nonspacechar           = parsers.any - parsers.spacing
 parsers.optionalspace          = parsers.spacechar^0
 
 --parsers.specialchar            = S("*_`&[]<!\\.@-^")
-parsers.specialchar            = S("*`")
+parsers.specialchar            = S("*`$")
 
 parsers.normalchar             = parsers.any - (parsers.specialchar + parsers.spacing + parsers.tightblocksep)
 parsers.eof                    = -parsers.any
@@ -387,7 +395,8 @@ end
 
 local fenceindent
 parsers.fencehead    = function(char)
-  return               C(parsers.nonindentspace) / function(s) fenceindent = #s end
+                       return C(parsers.nonindentspace) / function(s) fenceindent = #s
+                       end
                      * Cg(char^3, "fencelength")
                      * parsers.optionalspace * C(parsers.infostring)
                      * parsers.optionalspace * (parsers.newline + parsers.eof)
@@ -542,6 +551,14 @@ function M.reader.new(writer, options)
                                      parsers.asterisk)
                    ) / writer.emphasis
 
+  larsers.FormulaD = ( parsers.between(V("Inline"), parsers.doubledollar,
+                                     parsers.doubledollar)
+                   ) / writer.formulad
+
+  larsers.FormulaI   = ( parsers.between(V("Inline"), parsers.dollar,
+                                     parsers.dollar)
+                   ) / writer.formulai
+
   larsers.Code     = parsers.inticks / writer.code
 
   larsers.FencedCode   = parsers.BacktickFencedCode
@@ -579,12 +596,16 @@ function M.reader.new(writer, options)
       Plain                 = larsers.Plain,
 
       Inline                = V("Space")
-      + V("Strong") + V("Emph") + V("Str")
+      + V("Strong") + V("Emph")
+      + V("FormulaD") + V("FormulaI")
+      + V("Str")
       + V("Code"),
 
       Str                   = larsers.Str,
       Strong                = larsers.Strong,
       Emph                  = larsers.Emph,
+      FormulaD              = larsers.FormulaD,
+      FormulaI              = larsers.FormulaI,
       Space                 = larsers.Space,
       Code                  = larsers.Code,
     }

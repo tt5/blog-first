@@ -1,7 +1,4 @@
 node_modules/
 npm-debug.log
 /*.env
-start.sh
-build.sh
-nodemon.json
 notes

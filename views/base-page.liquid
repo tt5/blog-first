@@ -8,12 +8,24 @@
             <div>page3</div>
         </div>
     </div>
-    <div class="col-span-15 row-span-2"></div>
-    <div class="row-span-11"></div>
-    <div class="bg-gray-300 col-span-13 row-span-11">
+    <div class="col-span-15 row-span-2">&nbsp;</div>
+    <div class="row-span-11">&nbsp;</div>
+    <div class="bg-gray-200 col-span-13 row-span-11 flex flex-col self-start items-start">
     {% block page-content %}{% endblock %}
     </div>
-    <div class="row-span-11"></div>
+    <div class="row-span-11">&nbsp;</div>
     <div class="col-span-15">footer</div>
 </div>
+<script>
+  document.addEventListener('alpine:init', () =>{
+    Alpine.data('myfun', () => ({
+        data: "hello",
+        some: {
+            ['x-text']() {
+                return this.data
+              },
+    },
+}))
+  })
+</script>
 {% endblock %}

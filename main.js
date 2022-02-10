@@ -36,7 +36,7 @@ fastify.register(autoload, {
 });
 
 fastify.get("/", async (req, rep) => {
-    return rep.view("/views/index.liquid", { world: "world" });
+    return rep.view("/views/index.liquid", { title: "tt5" });
 });
 
 fastify.get("/json", async (req, rep) => {
@@ -44,3 +44,4 @@ fastify.get("/json", async (req, rep) => {
 });
 
 fastify.listen(process.env.PORT, "0.0.0.0", console.log);
+

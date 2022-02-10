@@ -1,5 +1,26 @@
 @import "windi.css";
+@import "katex.css";
+@import "prism-gruvbox-light.css";
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+h1, h2, h3 {
+  background-color: lightgray;
+}
 
 h1 {
     font-size: 5rem;
+    margin-top: 0;
+}
+
+a {
+  text-decoration: underline;
+  color: blue;
+}
+
+.flex div {
+  background-color: gray;
 }

@@ -1,0 +1,8 @@
+changequote(¹, ²)
+define(¹q²,¹   ²)
+define(¹s²,¹*²)
+define(¹>²,¹>²)
+define(¹nn²,¹\\\\²)
+define(¹macro², ¹esyscmd(¹$1 $2²)²)
+define(¹macro1²,¹macro(²)
+define(¹macro2²,¹)²)
