@@ -6,7 +6,7 @@
   <template x-if="open">
     <div
   x-data="{a: null}"
-  x-init="a = await (await fetch('/comp1')).text()"
+  x-init="a = await (await fetch('comp1')).text()"
   x-html="a"
     >
   </template>
