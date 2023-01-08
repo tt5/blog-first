@@ -2,3 +2,7 @@ node_modules/
 npm-debug.log
 /*.env
 notes
+views/pages/cache/*.liquid
+views/pages/cache/*.code
+views/pages/*.md
+views/pages/*.html

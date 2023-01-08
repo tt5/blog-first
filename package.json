@@ -12,12 +12,7 @@
     "fastify-static": "^4.5.0",
     "liquidjs": "^9.28.5",
     "point-of-view": "^4.15.3",
-    "rehype-katex": "^6.0.2",
-    "rehype-parse": "^8.0.3",
-    "rehype-stringify": "^9.0.2",
-    "to-vfile": "^7.2.2",
-    "undici": "^4.10.3",
-    "unified": "^10.1.1"
+    "undici": "^4.10.3"
   },
   "name": "first",
   "version": "1.0.0",
@@ -28,5 +23,13 @@
     "start": "node main.js"
   },
   "author": "\"me\"",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "rehype-document": "^6.1.0",
+    "rehype-katex": "^6.0.2",
+    "rehype-parse": "^8.0.4",
+    "rehype-stringify": "^9.0.3",
+    "to-vfile": "^7.2.3",
+    "unified": "^10.1.2"
+  }
 }

@@ -1,12 +1,11 @@
 # {{ some2 }}
 
-$2^2$
-
-text3 *emph* text **strong** text
+text $2^2$ text
 
 text $$2^2$$ text
 
-@@@
+text3 *emph* text **strong** text `code` text
+
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
@@ -38,11 +37,8 @@ text $$2^2$$ text
 </g>
 </svg>
 
-@@@
 
-@@@
 <div x-data="{{ some }}" x-text="message"></div>
-@@@
 
 line1
 line2  
@@ -52,4 +48,8 @@ line4
 
 ```javascript
 console.log("hi")
+```
+
+```javascript
+console.log("hi2")
 ```

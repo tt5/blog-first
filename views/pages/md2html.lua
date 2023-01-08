@@ -144,20 +144,30 @@ function M.writer.new(options)
   function self.emphasis(s)
     return {"<em>",s,"</em>"}
   end
+
   function self.strong(s)
     return {"<strong>",s,"</strong>"}
   end
 
+  function self.latexdisplay(s)
+    return {"<div class=\"math math-display\">",s,"</div>"}
+  end
+
   function self.code(s)
-    return {"\\markdownRendererCodeSpan{",s,"}"}
+    return {"<code>",s,"</code>"}
+  end
+
+  function self.latex(s)
+    return {"<span class=\"math math-inline\">",s,"</span>"}
   end
 
   codecount = 1
   function self.fencedCode(i, s)
     s = string.gsub(s, '[\r\n%s]*$', '')
-    local name = util.cache(options.cacheDir, s, nil, codecount .. ".verbatim")
+    s = "<pre><code class=\"language-" .. i .. "\">" .. s .. "</code></pre>"
+    local name = util.cache(options.cacheDir, s, nil, codecount .. ".code")
     codecount = codecount + 1
-    return {"\\markdownRendererInputFencedCode{",name,"}{",i,"}"}
+    return {"{% render \"",name,".liquid\" %} -",i,"-"}
   end
 
   self.active_headings = {}
@@ -191,9 +201,11 @@ end
 
 local parsers                  = {}
 parsers.at                     = P("@")
+parsers.dollar                 = P("$")
 parsers.hash                   = P("#")
 parsers.asterisk               = P("*")
 parsers.doubleasterisks        = P("**")
+parsers.doubledollars          = P("$$")
 parsers.backtick               = P("`")
 parsers.space                  = P(" ")
 parsers.tab                    = P("\t")
@@ -219,7 +231,7 @@ parsers.nonspacechar           = parsers.any - parsers.spacing
 parsers.optionalspace          = parsers.spacechar^0
 
 --parsers.specialchar            = S("*_`&[]<!\\.@-^")
-parsers.specialchar            = S("*`")
+parsers.specialchar            = S("*`$")
 
 parsers.normalchar             = parsers.any - (parsers.specialchar + parsers.spacing + parsers.tightblocksep)
 parsers.eof                    = -parsers.any
@@ -270,6 +282,7 @@ parsers.intickschar = (parsers.any - S(" \n\r`"))
 
 parsers.inticks     = parsers.openticks * parsers.space^-1
                     * C(parsers.intickschar^0) * parsers.closeticks
+
 local function captures_geq_length(s,i,a,b)
   return #a >= #b and i
 end
@@ -413,6 +426,15 @@ function M.reader.new(writer, options)
                                      parsers.asterisk)
                    ) / writer.emphasis
 
+  larsers.Latex   = ( parsers.between(V("Inline"), parsers.dollar,
+                                     parsers.dollar)
+                   ) / writer.latex
+
+  larsers.Latexdisplay = ( parsers.between(V("Inline"), parsers.doubledollars,
+                                     parsers.doubledollars)
+                   ) / writer.latexdisplay
+
+
   larsers.Code     = parsers.inticks / writer.code
 
   larsers.FencedCode   = parsers.BacktickFencedCode
@@ -442,13 +464,15 @@ function M.reader.new(writer, options)
 
       Inline                = V("Space")
       + V("Strong") + V("Emph") + V("Str")
-      + V("Code"),
+      + V("Code") + V("Latexdisplay") + V("Latex"),
 
       Str                   = larsers.Str,
       Strong                = larsers.Strong,
       Emph                  = larsers.Emph,
       Space                 = larsers.Space,
       Code                  = larsers.Code,
+      Latex                 = larsers.Latex,
+      Latexdisplay          = larsers.Latexdisplay,
     }
 
   local blocks_toplevel_t = util.table_copy(syntax)

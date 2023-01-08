@@ -1,12 +1,11 @@
 # {{ some2 }}
 
-$2^2$
-
-text3 *emph* text **strong** text
+text $2^2$ text
 
 text $$2^2$$ text
 
-@@@
+text3 *emph* text **strong** text `code` text
+
 m4  macro1
 echo '
 digraph {
@@ -15,11 +14,8 @@ node [shape=box width=0.6 margin=0 fixedsize=shape]
 "{{some2}}" -> b
 } ' | dot -Tsvg
 m4  macro2
-@@@
 
-@@@
 <div x-data="{{ some }}" x-text="message"></div>
-@@@
 
 line1
 line2  
@@ -29,4 +25,8 @@ line4
 
 ```javascript
 console.log("hi")
+```
+
+```javascript
+console.log("hi2")
 ```
