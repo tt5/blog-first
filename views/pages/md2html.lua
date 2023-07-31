@@ -129,7 +129,7 @@ function M.writer.new(options)
   self.eof = [[<!-- END -->]]
   self.linebreak = "<br>"
 
-  function self.plain(s) return {"<p>",s, "</p>"} end
+  function self.plain(s) return {"<p class=\"plain\">",s, "</p>"} end
 
   function self.pack(name)
     return [[-> ]] .. name .. [[]]
@@ -150,7 +150,7 @@ function M.writer.new(options)
   end
 
   function self.latexdisplay(s)
-    return {"<div class=\"math math-display\">",s,"</div>"}
+    return {"</p><div class=\"math math-display\">",s,"</div><p class=\"end\">"}
   end
 
   function self.code(s)
@@ -173,24 +173,31 @@ function M.writer.new(options)
   self.active_headings = {}
   function self.heading(s,level)
 
-    local cmd
+    local cmd1
+    local cmd2
     level = level
     if level <= 1 then
-      cmd = "h1"
+      cmd1 = "h1 class=\"text-3xl text-red-200\""
+      cmd2 = "h1"
     elseif level == 2 then
-      cmd = "\\markdownRendererHeadingTwo"
+      cmd1 = "\\markdownRendererHeadingTwo"
+      cmd2 = "\\markdownRendererHeadingTwo"
     elseif level == 3 then
-      cmd = "\\markdownRendererHeadingThree"
+      cmd1 = "\\markdownRendererHeadingThree"
+      cmd2 = "\\markdownRendererHeadingThree"
     elseif level == 4 then
-      cmd = "\\markdownRendererHeadingFour"
+      cmd1 = "\\markdownRendererHeadingFour"
+      cmd2 = "\\markdownRendererHeadingFour"
     elseif level == 5 then
-      cmd = "\\markdownRendererHeadingFive"
+      cmd1 = "\\markdownRendererHeadingFive"
+      cmd2 = "\\markdownRendererHeadingFive"
     elseif level >= 6 then
-      cmd = "\\markdownRendererHeadingSix"
+      cmd1 = "\\markdownRendererHeadingSix"
+      cmd2 = "\\markdownRendererHeadingSix"
     else
       cmd = ""
     end
-    return {"<", cmd,">",s,"</", cmd, ">"}
+    return {"<", cmd1,">",s,"</", cmd2, ">"}
   end
 
   return self

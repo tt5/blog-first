@@ -1,12 +1,12 @@
 {% layout "base" %} {% block content %}
 <div class="grid grid-cols-15 h-screen">
     <div class="bg-gray-300 col-span-15 flex self-end justify-between">
-        <div>{{ title }}</div>
-        <div class="flex justify-end gap-4">
+      <div><a href="/">home</a>&nbsp;/&nbsp;{{ title }}</div>
+        <nav class="flex justify-end gap-4">
             <div><a href="page1">page1</a></div>
-            <div>page2</div>
-            <div>page3</div>
-        </div>
+            <div><a href="page2">page2</a></div>
+            <div><a href="hello">hello</a></div>
+        </nav>
     </div>
     <div class="col-span-15 row-span-2">&nbsp;</div>
     <div class="row-span-11">&nbsp;</div>
@@ -19,7 +19,7 @@
 <script>
   document.addEventListener('alpine:init', () =>{
     Alpine.data('myfun', () => ({
-        data: "hello",
+        data: "hello alpine data",
         some: {
             ['x-text']() {
                 return this.data

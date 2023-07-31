@@ -57,11 +57,22 @@
   -webkit-justify-content: space-between;
   justify-content: space-between;
 }
+.h-16 {
+  height: 4rem;
+}
 .h-screen {
   height: 100vh;
 }
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
 .ml-4 {
   margin-left: 1rem;
+}
+.text-red-200 {
+  --tw-text-opacity: 1;
+  color: rgba(254, 202, 202, var(--tw-text-opacity));
 }
 .gap-4 {
   grid-gap: 1rem;

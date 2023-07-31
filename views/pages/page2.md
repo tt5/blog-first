@@ -1,7 +1,10 @@
 # page2
 
-<div x-data="{ open: false }">
-  <button on:click="open = ! open">Expand</button>
+text
+
+</p>
+<div x-data="{ open: false }" class="h-16">
+  <button @click="open = ! open">Expand</button>
   <template x-if="open">
     <div
   x-data="{a: null}"
@@ -15,3 +18,4 @@
   x-bind="some"
 >
 </div>
+<p class="end">

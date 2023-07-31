@@ -1,10 +1,11 @@
 # {{ some2 }}
 
-text $2^2$ text
+text4 *emph* text **strong** text $2^2$ text
+$$2^2$$
 
-text $$2^2$$ text
+text
 
-text3 *emph* text **strong** text `code` text
+text
 
 m4  macro1
 echo '
@@ -15,7 +16,7 @@ node [shape=box width=0.6 margin=0 fixedsize=shape]
 } ' | dot -Tsvg
 m4  macro2
 
-<div x-data="{{ some }}" x-text="message"></div>
+<span x-data="{{ some }}" x-text="message"></span>
 
 line1
 line2  

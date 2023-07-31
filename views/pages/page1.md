@@ -1,10 +1,11 @@
 # {{ some2 }}
 
-text $2^2$ text
+text4 *emph* text **strong** text $2^2$ text
+$$2^2$$
 
-text $$2^2$$ text
+text
 
-text3 *emph* text **strong** text `code` text
+text
 
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -38,7 +39,7 @@ text3 *emph* text **strong** text `code` text
 </svg>
 
 
-<div x-data="{{ some }}" x-text="message"></div>
+<span x-data="{{ some }}" x-text="message"></span>
 
 line1
 line2  
